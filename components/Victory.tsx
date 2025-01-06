@@ -2,7 +2,7 @@ import { Dimensions, View, StyleSheet } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { ThemedView } from './ThemedView';
 import type { SharedValue } from 'react-native-reanimated';
-import { Area, CartesianChart, useChartPressState } from 'victory-native';
+import { Area, CartesianChart, Line, useChartPressState } from 'victory-native';
 import { Circle, useFont } from '@shopify/react-native-skia';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -35,6 +35,13 @@ export const Victory = () => {
           {({ points, chartBounds }) => (
             //👇 pass a PointsArray to the Line component, y0, as well as options.
             <>
+              <Line
+                points={points.y}
+                curveType="linear"
+                color="#0071EA"
+                strokeWidth={3}
+                animate={{ type: 'timing', duration: 300 }}
+              />
               <Area
                 points={points.y}
                 y0={chartBounds.bottom}
