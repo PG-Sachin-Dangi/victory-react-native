@@ -13,7 +13,7 @@ export const Victory = () => {
     y: 40 + 30 * Math.random(),
   }));
   const { state, isActive } = useChartPressState({ x: 0, y: { y: 0 } });
-  const xAxisFont = useFont('../assets/fonts/SpaceMono-Regular.ttf');
+  const font = useFont(require('../assets/fonts/SpaceMono-Regular.ttf'), 16);
 
   return (
     <ThemedView style={styles.container}>
@@ -25,10 +25,12 @@ export const Victory = () => {
           xKey="x"
           yKeys={['y']}
           xAxis={{
-            tickCount: 10,
-            font: xAxisFont,
+            font: font,
+            tickCount: 5,
           }}
-          yAxis={[{ font: xAxisFont, tickCount: 10 }]}
+          yAxis={[{ font: font, tickCount: 5 }]}
+          domain={{ y: [40, 70] }}
+          padding={16}
         >
           {({ points, chartBounds }) => (
             //👇 pass a PointsArray to the Line component, y0, as well as options.
