@@ -13,10 +13,11 @@ import {
 import {
   Circle,
   LinearGradient,
+  Paint,
   useFont,
   vec,
 } from '@shopify/react-native-skia';
-import { createContext, ReactNode, useContext } from 'react';
+import { ReactNode } from 'react';
 import React from 'react';
 
 type CartesianData = {
@@ -154,7 +155,12 @@ const ToolTip = ({
   x: SharedValue<number>;
   y: SharedValue<number>;
 }) => {
-  return <Circle cx={x} cy={y} r={8} color="black" />;
+  return (
+    <Circle cx={x} cy={y} r={5}>
+      <Paint color="white" />
+      <Paint color="#0071EA" style="stroke" strokeWidth={2} />
+    </Circle>
+  );
 };
 
 const styles = StyleSheet.create({
