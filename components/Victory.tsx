@@ -44,7 +44,6 @@ const months = [
 const lineChartData = Array.from({ length: 12 }, (_, index) => ({
   x: months[index],
   y: 100 * Math.random(),
-  isEditedListing: Math.random() > 0.75,
 }));
 
 const barChartData = Array.from({ length: 12 }, (_, index) => ({
@@ -52,6 +51,17 @@ const barChartData = Array.from({ length: 12 }, (_, index) => ({
   // any 4 values 100 others 0 at random
   y: Math.random() > 0.75 ? 100 : 0,
 }));
+
+// create an array from lineChartData by randomly selecting any 4 of its values
+const editedListingsData = lineChartData.map((item) => {
+  if (Math.random() > 0.75) {
+    return item;
+  }
+  return {
+    x: item.x,
+    y: -1,
+  };
+});
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -89,14 +99,6 @@ export const LineChart = () => {
                 color="#0071EA4D"
                 animate={{ type: 'timing', duration: 300 }}
               />
-
-              <Scatter
-                points={points.y.filter((point) => Math.random() > 0.75)}
-                shape="circle"
-                radius={4}
-                style="fill"
-                color="#144386"
-              />
             </>
           )}
         </CartesianChartComponent>
@@ -117,6 +119,20 @@ export const LineChart = () => {
                 colors={['#F2A92666', '#FFFFFF66']}
               />
             </Bar>
+          )}
+        </CartesianChartComponent>
+      </View>
+
+      <View style={styles.barChart}>
+        <CartesianChartComponent data={editedListingsData}>
+          {({ points }) => (
+            <Scatter
+              points={points.y}
+              shape="circle"
+              radius={4}
+              style="fill"
+              color="#144386"
+            />
           )}
         </CartesianChartComponent>
       </View>
