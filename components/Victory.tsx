@@ -1,13 +1,14 @@
 import { Dimensions, View, StyleSheet } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { ThemedView } from './ThemedView';
-import type { SharedValue } from 'react-native-reanimated';
+import { useSharedValue, type SharedValue } from 'react-native-reanimated';
 import {
   Area,
   Bar,
   CartesianChart,
   CartesianChartRenderArg,
   Line,
+  Scatter,
   useChartPressState,
 } from 'victory-native';
 import {
@@ -43,6 +44,7 @@ const months = [
 const lineChartData = Array.from({ length: 12 }, (_, index) => ({
   x: months[index],
   y: 100 * Math.random(),
+  isEditedListing: Math.random() > 0.75,
 }));
 
 const barChartData = Array.from({ length: 12 }, (_, index) => ({
@@ -65,7 +67,6 @@ export const ListingPerformanceGraph = () => {
 };
 
 export const LineChart = () => {
-  const font = useFont(require('../assets/fonts/SpaceMono-Regular.ttf'), 8);
   return (
     <>
       <View style={styles.lineChart}>
@@ -80,12 +81,21 @@ export const LineChart = () => {
                 strokeWidth={3}
                 animate={{ type: 'timing', duration: 300 }}
               />
+
               <Area
                 points={points.y}
                 y0={chartBounds.bottom}
                 curveType="linear"
                 color="#0071EA4D"
                 animate={{ type: 'timing', duration: 300 }}
+              />
+
+              <Scatter
+                points={points.y.filter((point) => Math.random() > 0.75)}
+                shape="circle"
+                radius={4}
+                style="fill"
+                color="#144386"
               />
             </>
           )}
@@ -148,17 +158,15 @@ export const CartesianChartComponent: React.FC<
   );
 };
 
-const ToolTip = ({
-  x,
-  y,
-}: {
+interface ToolTipProps {
   x: SharedValue<number>;
   y: SharedValue<number>;
-}) => {
+}
+const ToolTip: React.FC<ToolTipProps> = ({ x, y }) => {
   return (
     <Circle cx={x} cy={y} r={5}>
-      <Paint color="white" />
-      <Paint color="#0071EA" style="stroke" strokeWidth={2} />
+      <Paint color={'white'} />
+      <Paint color={'#0071EA'} style="stroke" strokeWidth={2} />
     </Circle>
   );
 };
