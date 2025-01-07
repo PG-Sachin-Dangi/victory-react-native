@@ -2,7 +2,7 @@ import { Image, StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { Victory } from '@/components/Victory';
+import { ListingPerformanceGraph } from '@/components/Victory';
 
 export default function HomeScreen() {
   return (
@@ -16,7 +16,7 @@ export default function HomeScreen() {
       }
     >
       <ThemedView style={styles.titleContainer}>
-        <Victory />
+        <ListingPerformanceGraph />
       </ThemedView>
     </ParallaxScrollView>
   );
