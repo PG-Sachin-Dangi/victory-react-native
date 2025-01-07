@@ -6,6 +6,7 @@ import {
   Area,
   Bar,
   CartesianChart,
+  CartesianChartRenderArg,
   Line,
   useChartPressState,
 } from 'victory-native';
@@ -15,6 +16,39 @@ import {
   useFont,
   vec,
 } from '@shopify/react-native-skia';
+import { createContext, ReactNode, useContext } from 'react';
+import React from 'react';
+
+type CartesianData = {
+  x: string;
+  y: number;
+};
+
+const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
+const lineChartData = Array.from({ length: 12 }, (_, index) => ({
+  x: months[index],
+  y: 100 * Math.random(),
+}));
+
+const barChartData = Array.from({ length: 12 }, (_, index) => ({
+  x: months[index],
+  // any 4 values 100 others 0 at random
+  y: Math.random() > 0.75 ? 100 : 0,
+}));
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -30,51 +64,11 @@ export const ListingPerformanceGraph = () => {
 };
 
 export const LineChart = () => {
-  const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-
-  const lineChartData = Array.from({ length: 12 }, (_, index) => ({
-    x: months[index],
-    y: 100 * Math.random(),
-  }));
-
-  const barChartData = Array.from({ length: 12 }, (_, index) => ({
-    x: months[index],
-    // any 4 values 100 others 0 at random
-    y: Math.random() > 0.75 ? 100 : 0,
-  }));
-
-  const { state, isActive } = useChartPressState({ x: 'Jan', y: { y: 0 } });
   const font = useFont(require('../assets/fonts/SpaceMono-Regular.ttf'), 8);
-
   return (
     <>
       <View style={styles.lineChart}>
-        <CartesianChart
-          chartPressState={state}
-          data={lineChartData}
-          xKey="x"
-          yKeys={['y']}
-          xAxis={{
-            font: font,
-            tickCount: 12,
-          }}
-          domain={{ x: [1, 11], y: [0, 100] }}
-          yAxis={[{ font: font }]}
-          domainPadding={{ left: 50, right: 50, top: 30 }}
-        >
+        <CartesianChartComponent data={lineChartData}>
           {({ points, chartBounds }) => (
             //👇 pass a PointsArray to the Line component, y0, as well as options.
             <>
@@ -92,28 +86,13 @@ export const LineChart = () => {
                 color="#0071EA4D"
                 animate={{ type: 'timing', duration: 300 }}
               />
-
-              {isActive && (
-                <ToolTip x={state.x.position} y={state.y.y.position} />
-              )}
             </>
           )}
-        </CartesianChart>
+        </CartesianChartComponent>
       </View>
 
       <View style={styles.barChart}>
-        <CartesianChart
-          data={barChartData}
-          xKey="x"
-          yKeys={['y']}
-          xAxis={{
-            font: font,
-            tickCount: 12,
-          }}
-          yAxis={[{ font: font }]}
-          domain={{ x: [1, 11], y: [0, 100] }}
-          domainPadding={{ left: 50, right: 50, top: 30 }}
-        >
+        <CartesianChartComponent data={barChartData}>
           {({ points, chartBounds }) => (
             <Bar
               points={points.y}
@@ -128,9 +107,43 @@ export const LineChart = () => {
               />
             </Bar>
           )}
-        </CartesianChart>
+        </CartesianChartComponent>
       </View>
     </>
+  );
+};
+
+interface CartesianChartComponentProps {
+  children: (args: CartesianChartRenderArg<CartesianData, 'y'>) => ReactNode;
+  data: Array<CartesianData>;
+}
+export const CartesianChartComponent: React.FC<
+  CartesianChartComponentProps
+> = ({ children, data }) => {
+  const font = useFont(require('../assets/fonts/SpaceMono-Regular.ttf'), 8);
+  const { state, isActive } = useChartPressState({ x: 'Jan', y: { y: 0 } });
+
+  return (
+    <CartesianChart
+      chartPressState={state}
+      data={data}
+      xKey="x"
+      yKeys={['y']}
+      xAxis={{
+        font: font,
+        tickCount: 12,
+      }}
+      domain={{ x: [1, 11], y: [0, 100] }}
+      yAxis={[{ font: font }]}
+      domainPadding={{ left: 50, right: 50 }}
+    >
+      {(args: CartesianChartRenderArg<CartesianData, 'y'>) => (
+        <>
+          {children(args)}
+          {isActive && <ToolTip x={state.x.position} y={state.y.y.position} />}
+        </>
+      )}
+    </CartesianChart>
   );
 };
 
