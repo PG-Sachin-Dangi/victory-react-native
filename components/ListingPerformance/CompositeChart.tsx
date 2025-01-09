@@ -3,7 +3,8 @@ import { View } from 'react-native';
 import { Line, Area, Bar, Scatter } from 'victory-native';
 import { CartesianChartComponent } from './CartesianChartComponent';
 import { lineChartData, barChartData, editedListingsData } from './mocks';
-import { styles } from '.';
+import { styles } from './styles';
+import React from 'react';
 
 export const CompositeChart = () => {
   return (

@@ -1,4 +1,5 @@
 import { Circle, Paint } from '@shopify/react-native-skia';
+import { View, StyleSheet, Text } from 'react-native';
 import { SharedValue } from 'react-native-reanimated';
 
 interface ToolTipProps {
