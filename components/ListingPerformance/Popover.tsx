@@ -18,8 +18,9 @@ export const Popover = () => {
 const styles = StyleSheet.create({
   popover: {
     padding: 12,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    gap: 4,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     zIndex: 2,
     borderRadius: 16,
     borderWidth: 1,
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    width: 'auto',
   },
   promoText: {
     color: '#A97600',

@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   container: {
@@ -22,5 +24,9 @@ export const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 0,
+  },
+  compositeChart: {
+    height: screenHeight * 0.5,
+    width: screenWidth * 0.9,
   },
 });
