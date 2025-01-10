@@ -4,6 +4,7 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from 'react-native-reanimated';
+import { LineDemo } from './ToolTip';
 
 interface PopoverProps {
   x: SharedValue<number>;
@@ -11,16 +12,8 @@ interface PopoverProps {
 }
 export const Popover: React.FC<PopoverProps> = ({ x, y }): ReactNode => {
   const animatedStyle = useAnimatedStyle(() => {
-    return { top: 0, left: x.value - 100 };
+    return { top: 0, left: x.value / 2 };
   });
-
-  console.log(
-    'animatedStyle.left, animatedStyle.top',
-    animatedStyle.left,
-    x.get(),
-    animatedStyle.top,
-    y.get(),
-  );
 
   return (
     <Animated.View style={[styles.popover, animatedStyle]}>
@@ -32,6 +25,7 @@ export const Popover: React.FC<PopoverProps> = ({ x, y }): ReactNode => {
       <View style={styles.promoted}>
         <Text style={styles.promoText}>Promoted</Text>
       </View>
+      <LineDemo />
     </Animated.View>
   );
 };

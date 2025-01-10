@@ -1,11 +1,11 @@
 import { useFont } from '@shopify/react-native-skia';
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode } from 'react';
 import {
   CartesianChartRenderArg,
   useChartPressState,
   CartesianChart,
 } from 'victory-native';
-import { LineDemo, ToolTip } from './ToolTip';
+import { ToolTip } from './ToolTip';
 import { Pressable, PressableStateCallbackType } from 'react-native';
 import { styles } from './styles';
 import { Popover } from './Popover';

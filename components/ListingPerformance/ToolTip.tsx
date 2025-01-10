@@ -1,11 +1,4 @@
-import {
-  Canvas,
-  Circle,
-  Group,
-  Line,
-  Paint,
-  vec,
-} from '@shopify/react-native-skia';
+import { Canvas, Circle, Line, Paint, vec } from '@shopify/react-native-skia';
 import { SharedValue } from 'react-native-reanimated';
 
 interface ToolTipProps {
@@ -23,11 +16,19 @@ export const ToolTip: React.FC<ToolTipProps> = ({ x, y }) => {
 
 export const LineDemo = () => {
   return (
-    <Canvas style={{ flex: 1 }}>
+    <Canvas
+      style={{
+        flex: 1,
+        zIndex: 100,
+        position: 'absolute',
+        left: 100,
+        top: 100,
+      }}
+    >
       <Line
         p1={vec(0, 0)}
-        p2={vec(0, 10)}
-        color="lightblue"
+        p2={vec(300, 300)}
+        color="black"
         style="stroke"
         strokeWidth={4}
       />
