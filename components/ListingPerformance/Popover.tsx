@@ -1,19 +1,29 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { SharedValue, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, {
+  SharedValue,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 
 interface PopoverProps {
   x: SharedValue<number>;
   y: SharedValue<number>;
 }
 export const Popover: React.FC<PopoverProps> = ({ x, y }): ReactNode => {
-  const animatedStyle = useAnimatedStyle(() => ({
-    top: y.value,
-    left: x.value,
-  }));
+  const animatedStyle = useAnimatedStyle(() => {
+    return { top: 0, left: x.value - 100 };
+  });
+
+  console.log(
+    'animatedStyle.left, animatedStyle.top',
+    animatedStyle.left,
+    x.get(),
+    animatedStyle.top,
+    y.get(),
+  );
 
   return (
-    <View style={[styles.popover, animatedStyle]}>
+    <Animated.View style={[styles.popover, animatedStyle]}>
       <Text style={styles.date}>10 Jan 2025</Text>
       <View style={styles.impressionsContainer}>
         <Text style={styles.impressionsCount}>751</Text>
@@ -22,7 +32,7 @@ export const Popover: React.FC<PopoverProps> = ({ x, y }): ReactNode => {
       <View style={styles.promoted}>
         <Text style={styles.promoText}>Promoted</Text>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

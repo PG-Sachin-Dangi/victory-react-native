@@ -15,13 +15,13 @@ export const months = [
 
 export const lineChartData = Array.from({ length: 12 }, (_, index) => ({
   x: months[index],
-  y: 100 * Math.random(),
+  y: 50 * Math.random(),
 }));
 
 export const barChartData = Array.from({ length: 12 }, (_, index) => ({
   x: months[index],
   // any 4 values 100 others 0 at random
-  y: Math.random() > 0.75 ? 100 : 0,
+  y: Math.random() > 0.5 ? 100 : 0,
 }));
 
 // create an array from lineChartData by randomly selecting any 4 of its values

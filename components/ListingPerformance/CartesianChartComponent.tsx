@@ -1,11 +1,11 @@
 import { useFont } from '@shopify/react-native-skia';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import {
   CartesianChartRenderArg,
   useChartPressState,
   CartesianChart,
 } from 'victory-native';
-import { ToolTip } from './ToolTip';
+import { LineDemo, ToolTip } from './ToolTip';
 import { Pressable, PressableStateCallbackType } from 'react-native';
 import { styles } from './styles';
 import { Popover } from './Popover';
@@ -26,14 +26,7 @@ export const CartesianChartComponent: React.FC<
   const { state, isActive } = useChartPressState({ x: 'Jan', y: { y: 0 } });
 
   return (
-    <Pressable
-      style={styles.pressable}
-      onPressIn={({ nativeEvent }) => {
-        const x = nativeEvent.locationX;
-        const y = nativeEvent.locationY;
-        console.log(x, y, nativeEvent);
-      }}
-    >
+    <Pressable style={styles.pressable}>
       {({ pressed }: PressableStateCallbackType) => (
         <>
           {isActive && <Popover x={state.x.position} y={state.y.y.position} />}
