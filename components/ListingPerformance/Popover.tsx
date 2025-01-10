@@ -1,8 +1,19 @@
+import { ReactNode } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
-export const Popover = () => {
+interface PopoverProps {
+  x: SharedValue<number>;
+  y: SharedValue<number>;
+}
+export const Popover: React.FC<PopoverProps> = ({ x, y }): ReactNode => {
+  const animatedStyle = useAnimatedStyle(() => ({
+    top: y.value,
+    left: x.value,
+  }));
+
   return (
-    <View style={styles.popover}>
+    <View style={[styles.popover, animatedStyle]}>
       <Text style={styles.date}>10 Jan 2025</Text>
       <View style={styles.impressionsContainer}>
         <Text style={styles.impressionsCount}>751</Text>
@@ -25,6 +36,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: '#C1C9D2',
+    position: 'absolute',
+    backgroundColor: '#FFFFFF',
   },
   date: {
     color: '#A7B0B8',

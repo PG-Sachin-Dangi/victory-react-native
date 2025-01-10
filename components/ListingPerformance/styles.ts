@@ -29,4 +29,7 @@ export const styles = StyleSheet.create({
     height: screenHeight * 0.5,
     width: screenWidth * 0.9,
   },
+  pressable: {
+    flex: 1,
+  },
 });

@@ -6,6 +6,9 @@ import {
   CartesianChart,
 } from 'victory-native';
 import { ToolTip } from './ToolTip';
+import { Pressable, PressableStateCallbackType } from 'react-native';
+import { styles } from './styles';
+import { Popover } from './Popover';
 
 type CartesianData = {
   x: string;
@@ -23,27 +26,43 @@ export const CartesianChartComponent: React.FC<
   const { state, isActive } = useChartPressState({ x: 'Jan', y: { y: 0 } });
 
   return (
-    <CartesianChart
-      chartPressState={state}
-      data={data}
-      xKey="x"
-      yKeys={['y']}
-      xAxis={{
-        font: font,
-        tickCount: 12,
-        lineColor: 'transparent',
+    <Pressable
+      style={styles.pressable}
+      onPressIn={({ nativeEvent }) => {
+        const x = nativeEvent.locationX;
+        const y = nativeEvent.locationY;
+        console.log(x, y, nativeEvent);
       }}
-      domain={{ x: [1, 11], y: [0, 100] }}
-      yAxis={[{ font: font, tickCount: 12, lineColor: 'transparent' }]}
-      viewport={{ x: [0, 12], y: [0, 100] }}
-      domainPadding={{ left: 50, right: 50 }}
     >
-      {(args: CartesianChartRenderArg<CartesianData, 'y'>) => (
+      {({ pressed }: PressableStateCallbackType) => (
         <>
-          {children(args)}
-          {isActive && <ToolTip x={state.x.position} y={state.y.y.position} />}
+          {isActive && <Popover x={state.x.position} y={state.y.y.position} />}
+          <CartesianChart
+            chartPressState={state}
+            data={data}
+            xKey="x"
+            yKeys={['y']}
+            xAxis={{
+              font: font,
+              tickCount: 12,
+              lineColor: 'transparent',
+            }}
+            domain={{ x: [1, 11], y: [0, 100] }}
+            yAxis={[{ font: font, tickCount: 12, lineColor: 'transparent' }]}
+            viewport={{ x: [0, 12], y: [0, 100] }}
+            domainPadding={{ left: 50, right: 50 }}
+          >
+            {(args: CartesianChartRenderArg<CartesianData, 'y'>) => (
+              <>
+                {children(args)}
+                {isActive && (
+                  <ToolTip x={state.x.position} y={state.y.y.position} />
+                )}
+              </>
+            )}
+          </CartesianChart>
         </>
       )}
-    </CartesianChart>
+    </Pressable>
   );
 };

@@ -3,7 +3,6 @@ import { ThemedText } from '../ThemedText';
 import { ThemedView } from '../ThemedView';
 import { CompositeChart } from './CompositeChart';
 import { styles } from './styles';
-import { Popover } from './Popover';
 
 export const ListingPerformanceInsights = () => {
   return (
@@ -12,7 +11,6 @@ export const ListingPerformanceInsights = () => {
       <View style={styles.compositeChart}>
         <CompositeChart />
       </View>
-      <Popover />
     </ThemedView>
   );
 };
