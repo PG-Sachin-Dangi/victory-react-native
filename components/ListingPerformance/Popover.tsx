@@ -25,7 +25,6 @@ export const Popover: React.FC<PopoverProps> = ({ x, y }): ReactNode => {
       <View style={styles.promoted}>
         <Text style={styles.promoText}>Promoted</Text>
       </View>
-      <LineDemo />
     </Animated.View>
   );
 };

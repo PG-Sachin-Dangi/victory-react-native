@@ -5,8 +5,8 @@ import {
   useChartPressState,
   CartesianChart,
 } from 'victory-native';
-import { ToolTip } from './ToolTip';
-import { Pressable, PressableStateCallbackType } from 'react-native';
+import { LineDemo, ToolTip } from './ToolTip';
+import { Pressable, PressableStateCallbackType, View } from 'react-native';
 import { styles } from './styles';
 import { Popover } from './Popover';
 
@@ -29,7 +29,12 @@ export const CartesianChartComponent: React.FC<
     <Pressable style={styles.pressable}>
       {({ pressed }: PressableStateCallbackType) => (
         <>
-          {isActive && <Popover x={state.x.position} y={state.y.y.position} />}
+          {isActive && (
+            <View>
+              <Popover x={state.x.position} y={state.y.y.position} />
+              <LineDemo x={state.x.position} y={state.y.y.position} />
+            </View>
+          )}
           <CartesianChart
             chartPressState={state}
             data={data}

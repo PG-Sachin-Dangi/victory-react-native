@@ -1,5 +1,9 @@
 import { Canvas, Circle, Line, Paint, vec } from '@shopify/react-native-skia';
-import { SharedValue } from 'react-native-reanimated';
+import Animated, {
+  SharedValue,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
+import { Text } from 'react-native';
 
 interface ToolTipProps {
   x: SharedValue<number>;
@@ -14,24 +18,40 @@ export const ToolTip: React.FC<ToolTipProps> = ({ x, y }) => {
   );
 };
 
-export const LineDemo = () => {
+export const LineDemo: React.FC<ToolTipProps> = ({ x, y }) => {
+  const animatedStyle = useAnimatedStyle(() => {
+    return { top: y.value, left: x.value };
+  });
+
   return (
-    <Canvas
-      style={{
-        flex: 1,
-        zIndex: 100,
-        position: 'absolute',
-        left: 100,
-        top: 100,
-      }}
-    >
-      <Line
-        p1={vec(0, 0)}
-        p2={vec(300, 300)}
-        color="black"
-        style="stroke"
-        strokeWidth={4}
-      />
-    </Canvas>
+    <Animated.View style={[animatedStyle]}>
+      <Canvas
+        style={{
+          zIndex: 20,
+          position: 'absolute',
+          top: animatedStyle.top,
+          left: animatedStyle.left,
+        }}
+      >
+        <Line
+          p1={vec(animatedStyle.left, 100)}
+          p2={vec(animatedStyle.left, 300)}
+          color="black"
+          style="stroke"
+          strokeWidth={4}
+        />
+      </Canvas>
+
+      {/* <Text
+        style={{
+          zIndex: 20,
+          position: 'absolute',
+          top: animatedStyle.top,
+          left: animatedStyle.left,
+        }}
+      >
+        Hello
+      </Text> */}
+    </Animated.View>
   );
 };
